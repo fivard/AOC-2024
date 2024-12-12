@@ -43,10 +43,15 @@ def bfs(_i, _j, _letter):
             ):
                 sides_count += 1
 
-            if (((cur_i + 1, cur_j, cur_direction) in sides and
-                (cur_i - 1, cur_j, cur_direction) in sides) or
-                    ((cur_i, cur_j + 1, cur_direction) in sides and
-                     (cur_i, cur_j - 1, cur_direction) in sides)):
+            if (
+                (
+                    (cur_i + 1, cur_j, cur_direction) in sides and
+                    (cur_i - 1, cur_j, cur_direction) in sides
+                ) or (
+                    (cur_i, cur_j + 1, cur_direction) in sides and
+                    (cur_i, cur_j - 1, cur_direction) in sides
+                )
+            ):
                 sides_count -= 1
             sides.add((cur_i, cur_j, cur_direction))
             continue
