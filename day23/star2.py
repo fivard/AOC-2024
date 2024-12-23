@@ -28,33 +28,32 @@ def read_from_file():
     return graph
 
 
-def bron_kerbosch(R, P, X, graph, largest_clique):
-    if not P and not X:
-        if len(R) > len(largest_clique[0]):
-            largest_clique[0] = R
+def bron_kerbosch(current_clique, candidates, excluded, graph, largest_clique):
+    if not candidates and not excluded:
+        if len(current_clique) > len(largest_clique[0]):
+            largest_clique[0] = current_clique
         return
 
-    for vertex in list(P):
+    for vertex in list(candidates):
         bron_kerbosch(
-            R | {vertex},
-            P & graph[vertex],
-            X & graph[vertex],
+            current_clique | {vertex},      # union
+            candidates & graph[vertex],     # intersection
+            excluded & graph[vertex],       # intersection
             graph,
             largest_clique
         )
-        P.remove(vertex)
-        X.add(vertex)
+        candidates.remove(vertex)
+        excluded.add(vertex)
 
 
 def resolve():
     graph = read_from_file()
-    R = set()
-    P = set(graph.keys())
-    X = set()
+    current_clique = set()
+    candidates = set(graph.keys())
+    excluded = set()
     largest_clique = [set()]
 
-    # Виклик алгоритму
-    bron_kerbosch(R, P, X, graph, largest_clique)
+    bron_kerbosch(current_clique, candidates, excluded, graph, largest_clique)
 
     return ",".join(sorted(largest_clique[0]))
 
